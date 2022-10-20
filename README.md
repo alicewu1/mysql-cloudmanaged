@@ -2,8 +2,9 @@
 HHA504 / Assignment 8 / ERD
 
 ### This repo aims to:
-- create sql in python script and reproduce relationships between tables without repetitive commands 
 - create a cloud-managed MySQL db on GCP
+- use python to create tables in sql and reproduce relationships between tables without repeating commands 
+
 <br>
 
 # **TASKS:**
@@ -13,38 +14,41 @@ HHA504 / Assignment 8 / ERD
 
 # 2. Create a new DB in the MySQL instance called patient_portal  
 1. Log back into mysql server, create, verify new db using:
-   -        mysql -u root -h [MySQL instance IP address] -p
-            CREATE DATABASE patient_portal;
-            show databases \G;
+        
+        mysql -u root -h [MySQL instance IP address] -p
+        password
+        create database patient_portal;
+        show databases \G;
 2. Change into new db directory to create a table:
-    -       Use patient_portal;
+       Use patient_portal;
 
 <br>
 
 ------
 
 # 3. Creating tables and table relationships using python
-## ***sql_table_creation.py:*** Create tables in new db
-    
-          use patient_portal;
+## ***sql_table_creation.py:*** Change into new db directory to create new tables
 
-          - patients_details
-          - patients_medications
-          - treatments_procedures
-          - patients_conditions
-          - social_determinants
+       use patient_portal;
+
+1. Create tables:    
+    - patients_details
+    - patients_medications
+    - treatments_procedures
+    - patients_conditions
+    - social_determinants
      
-       (Verify that tables have been created within MySQL console)
+2. Verify that tables have been created within MySQL console
 
 <br>
 
 ## ***sql_dummy_data.py:*** Create realistic dummy patient data using the following resources
-      - Medications (NDC codes) : https://dailymed.nlm.nih.gov/dailymed/index.cfm 
-      - Treatments/Procedures (CPT) : https://www.aapc.com/codes/cpt-codes-range/1  
-      - Conditions (ICD10 codes): https://icdcodelookup.com/icd-10/codes
-      - Social_Determinants (LOINC codes) : https://www.findacode.com/loinc/LG41762-2--socialdeterminantsofhealth.html
+- Medications (NDC codes) : https://dailymed.nlm.nih.gov/dailymed/index.cfm 
+- Treatments/Procedures (CPT) : https://www.aapc.com/codes/cpt-codes-range/1  
+- Conditions (ICD10 codes): https://icdcodelookup.com/icd-10/codes
+- Social_Determinants (LOINC codes) : https://www.findacode.com/loinc/LG41762-2--socialdeterminantsofhealth.html
 
-    (Verify tables are population in MySQL console)
+    - Verify tables are populated in MySQL console
 
 <br>
 
