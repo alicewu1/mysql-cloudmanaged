@@ -19,7 +19,7 @@
 
 
 ## Store .env file in the **root** directory with following structure: 
-    MYSQL_HOSTNAME = "inserthere" 
+    MYSQL_HOSTNAME = "inserthere"  (found under GCP > SQL > Overview > Connect to this instance > Public IP Address)
     MYSQL_USERNAME = "inserthere"
     MYSQL_PASSWORD = "inserthere"
     MYSQL_DATABASE = "inserthere"
@@ -65,6 +65,9 @@
     -   Under Configuration Details:
         -   Machine Type: Lightweight
     -   Everything else Default
+2. Under Connection tab, Add Network:
+    - Name: connect from anywhere
+    - Network: 0.0.0.0/0
 
 2. Create Instance Name
 3. Enter Password (becomes **root** user password)
@@ -75,3 +78,18 @@
 2. Enter pass: [root user password] 
 
 <br> 
+
+
+# SETTING UP A MYSQL WORKBENCH CONNECTION TO MY DB PATIENT_PORTAL
+1. Add Connection:
+    - Connection Name: patient_portal
+    - Connection Method: Standard (TCP/IP)
+    - Hostname: [SQL INSTANCE IP ADDRESS]
+    - Port: 3306
+    - Username: root
+2. Click on "Test Connection" to test: Type in password 
+3. Set patient_portal as Default Schema
+4. Views: Used by Data Analysts to grab bits of info from various tables
+5. Stored Procedures: storing rules 
+
+
