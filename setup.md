@@ -1,5 +1,6 @@
 ## MySQL REQUIREMENTS AND DEPENDENCIES FOR THE INSTANCE
--       2 vCPU | 4 GB RAM | 10 GB | Ubuntu 18.04 LTS
+
+        2 vCPU | 4 GB RAM | 10 GB | Ubuntu 18.04 LTS
         Allow traffic for: HTTP. HTTPS. SSH, MySQL
         Create a new firewall rule to enable MySQL traffic (Open port 3306)
             - Name: mysql-allow
@@ -59,15 +60,17 @@
 
 ## SETTING UP GCP [MYSQL INSTANCE]
 1. Under SQL tab, create MySQL Instance with the following requirements:
-    -   2 vCPU | 8 GB Memory | 100 GB Storage  
-    -   Version: MySQL 8.0 (Default)
-    -   Choose Configuration: Development 
-    -   Under Configuration Details:
-        -   Machine Type: Lightweight
-    -   Everything else Default
+
+        2 vCPU | 8 GB Memory | 100 GB Storage  
+        Version: MySQL 8.0 (Default)
+        Choose Configuration: Development 
+        Under Configuration Details:
+                - Machine Type: Lightweight
+        Everything else Default
 2. Under Connection tab, Add Network:
-    - Name: connect from anywhere
-    - Network: 0.0.0.0/0
+3. 
+        Name: connect from anywhere
+        Network: 0.0.0.0/0
 
 2. Create Instance Name
 3. Enter Password (becomes **root** user password)
@@ -82,11 +85,12 @@
 
 # SETTING UP A MYSQL WORKBENCH CONNECTION TO MY DB PATIENT_PORTAL
 1. Add Connection:
-    - Connection Name: patient_portal
-    - Connection Method: Standard (TCP/IP)
-    - Hostname: [SQL INSTANCE IP ADDRESS]
-    - Port: 3306
-    - Username: root
+
+        Connection Name: patient_portal
+        Connection Method: Standard (TCP/IP)
+        Hostname: [SQL INSTANCE IP ADDRESS]
+        Port: 3306
+        Username: root
 2. Click on "Test Connection" to test: Type in password 
 3. Set patient_portal as Default Schema
 4. Views: Used by Data Analysts to grab bits of info from various tables
