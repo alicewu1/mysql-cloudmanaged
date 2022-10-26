@@ -13,7 +13,7 @@
 
 <br>
 
-# **TASKS:**
+# ***TASKS***
 # 1. **setup.md**: 
 - How I setup and connect my GCP Compute Engine VM Instance to a MySQL dev env
 - How I setup a GCP MySQL Instance
@@ -38,7 +38,7 @@
 ------
 
 # **3. CREATING TABLES AND TABLE RELATIONSHIPS IN PYTHON**
-# Part 3.1: ***sql_table_creation.py:*** 
+# [Part 3.1] ***sql_table_creation.py:*** Create table schemas 
 1.  Packages Used:
     
             import dbm
@@ -75,7 +75,7 @@
 
 <br>
 
-# Part 3.2: ***sql_dummy_data.py:*** Create realistic dummy patient data
+# [Part 3.2] ***sql_dummy_data.py:*** Create realistic dummy patient data
 1. Resources Used to Obtain Real codes:
     - Conditions (ICD10 codes): https://icdcodelookup.com/icd-10/codes
     - Medications (NDC codes) : https://dailymed.nlm.nih.gov/dailymed/index.cfm 
@@ -112,7 +112,7 @@
 <br>
 
 -----
-# 4. Create an Entity Relationship Diagram (ERD) for my DB design using MySQL Work Bench. 
+# 4. Create an Entity Relationship Diagram (ERD) for my DB design using MySQL Workbench 
 - Must have at least two foreignKeys representing a relationship between at least 2 tables. 
 - Shows the rows and columns in created within the tables 
 - Shows elevated perspective of Schemas view
