@@ -173,6 +173,7 @@ create table if not exists production_patient_social_determinants (
     id int auto_increment,
     mrn varchar(255) default null,
     LOINC_code varchar(255) default null,
+    LOINC_description varchar(255) default null,
     PRIMARY KEY (id),
     FOREIGN KEY (mrn) REFERENCES production_patients(mrn) ON DELETE CASCADE,
     FOREIGN KEY (LOINC_code) REFERENCES production_social_determinants(LOINC_code) ON DELETE CASCADE
@@ -189,6 +190,5 @@ db_gcp.execute(create_table_social_determinants)
 
 db_gcp.execute(table_prod_patients_medications)
 db_gcp.execute(table_prod_patient_conditions)
-
 db_gcp.execute(table_prod_patient_treatment_procedures)
 db_gcp.execute(table_prod_patient_social_determinants)

@@ -9,7 +9,7 @@
 - create realistic patient dummy data usinf **faker** python package
 <br>
 
-### **Note:** Initially, I manually created dummy patient data to insert into the tables in my db/ However, I have since revised the python scripts to utilize the ***faker*** package to auto-generate realistic dummy patient data into my tables. I have included screenshots of my old dummy data versus my new dummy data in my ***images*** folder.
+### **Note:** Initially, I manually created dummy patient data to insert into the tables in my db/ However, I have since revised the python scripts to utilize the ***faker*** package to auto-generate realistic dummy patient data into my tables. I have included screenshots of my old dummy data versus my new dummy data in my ***old images*** folder.
 
 <br>
 

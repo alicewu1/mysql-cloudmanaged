@@ -167,9 +167,75 @@ df_gcp = pd.read_sql_query("SELECT * FROM production_conditions", db)
 df_gcp
 
 
+####### CREATING FAKE PATIENT CONDITIONS ###########
+####### CREATING FAKE PATIENT CONDITIONS ###########
+####### CREATING FAKE PATIENT CONDITIONS ###########
+##### now lets create some fake patient_conditions 
+
+# first, lets query production_conditions and production_patients to get the ids
+df_conditions = pd.read_sql_query("SELECT icd10_code FROM production_conditions", db)
+df_patients = pd.read_sql_query("SELECT mrn FROM production_patients", db)
+
+# create a dataframe that is stacked and give each patient a random number of conditions between 1 and 5
+df_patient_conditions = pd.DataFrame(columns=['mrn', 'icd10_code'])
+# for each patient in df_patient_conditions, take a random number of conditions between 1 and 10 from df_conditions and palce it in df_patient_conditions
+for index, row in df_patients.iterrows():
+    # get a random number of conditions between 1 and 5
+    # numConditions = random.randint(1, 5)
+    # get a random sample of conditions from df_conditions
+    df_conditions_sample = df_conditions.sample(n=random.randint(1, 5))
+    # add the mrn to the df_conditions_sample
+    df_conditions_sample['mrn'] = row['mrn']
+    # append the df_conditions_sample to df_patient_conditions
+    df_patient_conditions = df_patient_conditions.append(df_conditions_sample)
+
+print(df_patient_conditions.head(20))
+
+
+## INSERTING RANDOM CONDITION INTO PATIENT ##
+## INSERTING RANDOM CONDITION INTO PATIENT ##
+insertQuery = "INSERT INTO production_patient_conditions (mrn, icd10_code) VALUES (%s, %s)"
+
+for index, row in df_patient_conditions.iterrows():
+    db.execute(insertQuery, (row['mrn'], row['icd10_code']))
+    print("inserted row: ", index)
+
+
+
+
+
 ########## INSERTING IN FAKE MEDICATIONS ##########
 ########## INSERTING IN FAKE MEDICATIONS ##########
 ########## INSERTING IN FAKE MEDICATIONS ##########
+
+insertQuery = "INSERT INTO production_medications (med_ndc, med_human_name) VALUES (%s, %s)"
+
+medRowCount = 0
+for index, row in ndc_codes_1k.iterrows():
+    medRowCount += 1
+    # db_azure.execute(insertQuery, (row['PRODUCTNDC'], row['NONPROPRIETARYNAME']))
+    db.execute(insertQuery, (row['PRODUCTNDC'], row['NONPROPRIETARYNAME']))
+    print("inserted row: ", index)
+    ## stop once we have 50 rows
+    if medRowCount == 75:
+        break
+
+
+# ndc_codes_1k_moded = ndc_codes_1k.rename(columns={'PRODUCTNDC': 'med_ndc', 'NONPROPRIETARYNAME': 'med_human_name'})
+# ndc_codes_1k_moded = ndc_codes_1k_moded.drop(columns=['PROPRIETARYNAME'])
+# ## keep only first 100 characters for each med_human_name
+# ndc_codes_1k_moded['med_human_name'] = ndc_codes_1k_moded['med_human_name'].str[:100]
+
+# ndc_codes_1k_moded.to_sql('production_medications', con=db_azure, if_exists='replace', index=False)
+# ndc_codes_1k_moded.to_sql('production_medications', con=db_gcp, if_exists='replace', index=False)
+
+# query dbs to see if data is there
+df_gcp = pd.read_sql_query("SELECT * FROM production_medications", db)
+
+
+####### CREATING FAKE PATIENT MEDICATIONS ########
+####### CREATING FAKE PATIENT MEDICATIONS ########
+####### CREATING FAKE PATIENT MEDICATIONS ########
 
 # first, lets query production_medications and production_patients to get the ids
 
@@ -193,7 +259,8 @@ for index, row in df_patients.iterrows():
 
 print(df_patient_medications.head(10))
 
-# now lets add a random medication to each patient
+## INSERTING RANDOM MEDICATION INTO PATIENT ##
+## INSERTING RANDOM MEDICATION INTO PATIENT ##
 insertQuery = "INSERT INTO production_patient_medications (mrn, med_ndc) VALUES (%s, %s)"
 
 for index, row in df_patient_medications.iterrows():
@@ -204,35 +271,90 @@ for index, row in df_patient_medications.iterrows():
 
 
 
-########## INSERTING IN FAKE TREATMENT PROCEDURES ##########
-########## INSERTING IN FAKE TREATMENT PROCEDURES ##########
-########## INSERTING IN FAKE TREATMENT PROCEDURES ##########
 
-df_treatment_procedures = pd.read_sql_query("SELECT CPT_code FROM production_treatment_procedures", db)
-df_patients = pd.read_sql_query("SELECT mrn FROM production_patients", db)
 
-df_patient_treatment_procedures = pd.DataFrame(columns=['mrn', 'CPT_code'])
+########## INSERTING IN FAKE TREATMENT PROCEDURES ##########
+########## INSERTING IN FAKE TREATMENT PROCEDURES ##########
+########## INSERTING IN FAKE TREATMENT PROCEDURES ##########
 
 insertQuery = "INSERT INTO production_treatment_procedures (CPT_code, CPT_description) VALUES (%s, %s)"
 
 proceduresRowCount = 0
 for index, row in cpt_codes_1k.iterrows():
-    startingRow += 1
-    print('startingRow: ', startingRow)
+    proceduresRowCount += 1
+    print('proceduresRowCount: ', proceduresRowCount)
     db.execute(insertQuery, (row['com.medigy.persist.reference.type.clincial.CPT.code'], row['label']))
-    print("inserted row db_gcp: ", index)
+    print("inserted row db: ", index)
     ## stop once we have 100 rows
     if startingRow == 100:
         break
 
+# query dbs to see if data is there
 df_gcp = pd.read_sql_query("SELECT * FROM production_treatment_procedures", db)
 df_gcp
 
 
+####### CREATING FAKE PATIENT TREATMENT PROCEDURES ########
+####### CREATING FAKE PATIENT TREATMENT PROCEDURES ########
+####### CREATING FAKE PATIENT TREATMENT PROCEDURES ########
+# first, lets query production_conditions and production_patients to get the ids
+df_procedures = pd.read_sql_query("SELECT CPT_code FROM production_treatment_procedures", db)
+df_procedures
+df_patients = pd.read_sql_query("SELECT mrn FROM production_patients", db)
+df_patients
+
+# create a dataframe that is stacked 
+df_patient_procedures = pd.DataFrame(columns=['mrn', 'CPT_code'])
+
+for index, row in df_patients.iterrows():
+    numProcedures= random.randint(1, 5)
+    df_procedures_sample = df_procedures.sample(n=numProcedures)
+    df_procedures_sample['mrn'] = row['mrn']
+    df_patient_procedures = df_patient_procedures.append(df_procedures_sample)
+
+print(df_patient_procedures.head(20))
+
+
+## INSERTING RANDOM PROCEDURES INTO PATIENT ##
+## INSERTING RANDOM PROCEDURES INTO PATIENT ##
+insertQuery = "INSERT INTO production_patient_treatment_procedures (mrn, CPT_code) VALUES (%s, %s)"
+
+for index, row in df_patient_procedures.iterrows():
+    db.execute(insertQuery, (row['mrn'], row['CPT_code']))
+    print("inserted row: ", index)
+
+
+
+
+
+
+
+
 ########## INSERTING IN FAKE SOCIAL DETERMINANTS ##########
 ########## INSERTING IN FAKE SOCIAL DETERMINANTS ##########
 ########## INSERTING IN FAKE SOCIAL DETERMINANTS ##########
 
+insertQuery = "INSERT INTO production_social_determinants (LOINC_code, LOINC_description) VALUES (%s, %s)"
+
+socRowCount = 0
+for index, row in loinc_codes_1k.iterrows():
+    socRowCount += 1
+    print('socRowCount: ', socRowCount)
+    db.execute(insertQuery, (row['LOINC_NUM'], row['COMPONENT'])) ## column names found in LOINC.csv file
+    print("inserted row db: ", index)
+    ## stop once we have 100 rows
+    if socRowCount == 100:
+        break
+
+
+df_gcp = pd.read_sql_query("SELECT * FROM production_social_determinants", db)
+df_gcp
+
+
+
+########## CREATING FAKE PATIENT SOCIAL DETERMINANTS ###########
+########## CREATING FAKE PATIENT SOCIAL DETERMINANTS ###########
+########## CREATING FAKE PATIENT SOCIAL DETERMINANTS ###########
 df_social_determinants = pd.read_sql_query("SELECT LOINC_code from production_social_determinants", db)
 df_patients = pd.read_sql_query("SELECT mrn FROM production_patients", db)
 
@@ -248,13 +370,11 @@ for index, row in df_patients.iterrows():
 print(df_patient_social_determinants.head(10))
 
 
-# now lets add a random loinc code to each patient
-insertQuery = "INSERT INTO production_social_determinants (mrn, LOINCS_code) VALUES (%s, %s)"
+## INSERTING RANDOM SOCIAL DETERMINANTS INTO PATIENT ##
+## INSERTING RANDOM SOCIAL DETERMINANTS INTO PATIENT ##
+insertQuery = "INSERT INTO production_patient_social_determinants (mrn, LOINC_code) VALUES (%s, %s)"
 
-for index, row in df_patient_medications.iterrows():
+for index, row in df_patient_social_determinants.iterrows():
     db.execute(insertQuery, (row['mrn'], row['LOINC_code']))
     print("inserted row: ", index)
 
-
-df_gcp = pd.read_sql_query("SELECT * FROM production_social_determinants", db)
-df_gcp
