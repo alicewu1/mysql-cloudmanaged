@@ -6,10 +6,10 @@
 - use python to create tables in sql and reproduce relationships between tables without repeating commands
 - experiment with various methods of using MySQL (remote mysql instance, local using MySQL client, MySQL workbench) 
 - create an ERD using MySQL Workbench
-- create realistic patient dummy data usinf **faker** python package
+- create realistic patient dummy data using the **faker** python package
 <br>
 
-### **Note:** Initially, I manually created dummy patient data to insert into the tables in my db/ However, I have since revised the python scripts to utilize the ***faker*** package to auto-generate realistic dummy patient data into my tables. I have included screenshots of my old dummy data versus my new dummy data in my ***old images*** folder.
+### *Note:* Initially, I manually created dummy patient data to insert into the tables in my db/ However, I have since revised the python scripts to utilize the ***faker*** package to auto-generate realistic dummy patient data into my tables. I have included screenshots of my old dummy data versus my new dummy data in my ***old images*** folder.
 
 <br>
 
@@ -22,7 +22,7 @@
 
 <br>
 
-# **2. Create a new DB in the MySQL instance called *patient_portal***
+# 2. CREATE A NEW DB IN MYSQL INSTANCE CALLED ***patient_portal***
 1. Log back into mysql server, create, verify new db using:
         
         mysql -u root -h [MySQL instance IP address] -p
@@ -30,7 +30,8 @@
         create database patient_portal;
         show databases \G;
 2. Change into new db directory to create a table:
-       Use patient_portal;
+
+        Use patient_portal;
 
 <br>
 
@@ -39,7 +40,8 @@
 # **3. CREATING TABLES AND TABLE RELATIONSHIPS IN PYTHON**
 # Part 3.1: ***sql_table_creation.py:*** 
 1.  Packages Used:
-    -       import dbm
+    
+            import dbm
             import pandas as pd 
             import sqlalchemy
             from sqlalchemy import create_engine
@@ -47,54 +49,40 @@
             import os
 
 2. Create tables (various methods):    
-    -       production_patients
+    -  If using **MySQL Workbench**: Paste raw SQL Query into workbench
+    -  If using **terminal**: Run code through instance console or local cmd terminal using MySQL client
+    
+            production_patients
             production_medications
             production_conditions
             production_treatment_procedures
             production_social_determinants
 
-    -  If using MySQL Workbench: Paste raw SQL Query into workbench
-    -  If using terminal: Run code through instance console or local cmd terminal using MySQL client
+    - https://github.com/alicewu1/mysql-cloudmanaged/blob/d5c2d84e5db3d4a6233f7cf12021734f4c200e53/sql_table_creation.py#L79-L90
     - id int auto_increment: is the index, auto generates ID variables
-    - PRIMARY KEY (id): must define PRIMARY KEY or defaults to first line
-
-    -       use patient_portal;
-            create table if not exists production_patients (
-            id int auto_increment,
-            mrn varchar(255) default null unique,
-            first_name varchar(255) default null,
-            last_name varchar(255) default null,
-            zip_code varchar(255) default null,
-            dob varchar(255) default null,
-            gender varchar(255) default null,
-            contact_mobile varchar(255) default null,
-            contact_home varchar(255) default null,
-            PRIMARY KEY (id)
-        ); 
+    - PRIMARY KEY (id): must define PRIMARY KEY or defaults to first line  
+                
+              
 
      
 3. Verify that tables have been created within MySQL console
     - In MySQL Workbench:
-    -      Refresh "Tables" tab under Schema
-    - In SQL Instance Terminal
-    -     show tables;
-
-
-
-
+    
+           Refresh "Tables" tab under Schema
+    - In SQL Instance Terminal:
+    
+           show tables;
 
 <br>
 
-# Part 3.2: ***sql_dummy_data.py:*** Create realistic dummy patient data using the following resources
-- Medications (NDC codes) : https://dailymed.nlm.nih.gov/dailymed/index.cfm 
-- Treatments/Procedures (CPT) : https://www.aapc.com/codes/cpt-codes-range/1  
-- Conditions (ICD10 codes): https://icdcodelookup.com/icd-10/codes
-- Social_Determinants (LOINC codes) : https://www.findacode.com/loinc/LG41762-2--socialdeterminantsofhealth.html
+# Part 3.2: ***sql_dummy_data.py:*** Create realistic dummy patient data
+1. Resources Used to Obtain Real codes:
+    - Conditions (ICD10 codes): https://icdcodelookup.com/icd-10/codes
+    - Medications (NDC codes) : https://dailymed.nlm.nih.gov/dailymed/index.cfm 
+    - Treatments/Procedures (CPT) : https://www.aapc.com/codes/cpt-codes-range/1  
+    - Social_Determinants (LOINC codes) : https://www.findacode.com/loinc/LG41762-2--socialdeterminantsofhealth.html
 
-    - Verify tables are populated in MySQL console
-
-
-1. Packages Used:
+2. Packages Used:
     -       import dbm
             import pandas as pd 
             import sqlalchemy
@@ -105,9 +93,21 @@
             import uuid # used to generate mrn numbers
             import random # creates randomness
 
-2. Use .csv of ICD10 codes 
+3. Use .csv of ICD10, NDC, CPT, LOINC codes to insert real codes to corresponding tables.
+    - Take 1000 random codes and create a new df 
+    - Drop duplicate codes to create uniqueness
+    - https://github.com/alicewu1/mysql-cloudmanaged/blob/d5c2d84e5db3d4a6233f7cf12021734f4c200e53/sql_dummy_data.py#L61-L99
 
+4. Insert fake patients
+    - https://github.com/alicewu1/mysql-cloudmanaged/blob/d5c2d84e5db3d4a6233f7cf12021734f4c200e53/sql_dummy_data.py#L130-L141
+5. Insert fake conditions (ICD10 codes)
+    - https://github.com/alicewu1/mysql-cloudmanaged/blob/d5c2d84e5db3d4a6233f7cf12021734f4c200e53/sql_dummy_data.py#L146-L167
+6. Create fake patient conditions and insert randomly to patients
+    - https://github.com/alicewu1/mysql-cloudmanaged/blob/d5c2d84e5db3d4a6233f7cf12021734f4c200e53/sql_dummy_data.py#L170-L201
+7. Repeat for medications, treatment procedures, and social determinants table
+8. Verify tables are created in MYSQL Console
 
+         show tables;
 
 <br>
 
