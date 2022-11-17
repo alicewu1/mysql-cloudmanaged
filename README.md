@@ -77,10 +77,10 @@
 
 # [Part 3.2] ***sql_dummy_data.py:*** Create realistic dummy patient data
 1. Resources Used to Obtain Real codes:
-    - Conditions (ICD10 codes): https://icdcodelookup.com/icd-10/codes
-    - Medications (NDC codes) : https://dailymed.nlm.nih.gov/dailymed/index.cfm 
-    - Treatments/Procedures (CPT) : https://www.aapc.com/codes/cpt-codes-range/1  
-    - Social_Determinants (LOINC codes) : https://www.findacode.com/loinc/LG41762-2--socialdeterminantsofhealth.html
+    - [Conditions (ICD10 codes)](https://icdcodelookup.com/icd-10/codes)
+    - [Medications (NDC codes)](https://dailymed.nlm.nih.gov/dailymed/index.cfm) 
+    - [Treatments/Procedures (CPT)](https://www.aapc.com/codes/cpt-codes-range/1)  
+    - [Social_Determinants (LOINC codes)](https://www.findacode.com/loinc/LG41762-2--socialdeterminantsofhealth.html)
 
 2. Packages Used:
     -       import dbm
